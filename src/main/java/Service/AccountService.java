@@ -21,8 +21,8 @@ public class AccountService {
     // account
     public Account addAccount(Account account) {
         if (this.accountValidator.isValidRegistration(account) && !accountDAO.usernameExists(account.getUsername()))
-            return null;
-        return this.accountDAO.insertAccount(account);
+            return this.accountDAO.insertAccount(account);;
+        return null;
     }
 
     public Account loginAccount(Account account) {
