@@ -43,7 +43,7 @@ public class AccountDAO {
 
         try {
 
-            String sql = "SELECT * FROM accounts WHERE username = ? AND password = ?";
+            String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, account.getUsername());
             preparedStatement.setString(2, account.getPassword());
@@ -51,7 +51,7 @@ public class AccountDAO {
 
             if (rs.next()) {
                 return new Account(
-                        // rs.getInt("account_id"),
+                        rs.getInt("account_id"),
                         rs.getString("username"),
                         rs.getString("password"));
             }
