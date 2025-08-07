@@ -18,7 +18,8 @@ public class MessageService {
     }
 
     public Message addMessage(Message message) {
-        if (this.messageValidator.isValidMessage(message.getMessage_text()) && !this.accountDAO.accountExists(message.getPosted_by()))
+        if (this.messageValidator.isValidMessage(message.getMessage_text())
+                && !this.accountDAO.accountExists(message.getPosted_by()))
             return messageDAO.insertMessage(message);
         return null;
     }
@@ -37,9 +38,9 @@ public class MessageService {
 
     public Message updateMessageTextById(int messageID, String newMessageBody) {
         if (this.messageValidator.isValidMessage(newMessageBody)) {
-            return null;
+            return this.messageDAO.updateMessageTextById(messageID, newMessageBody);
         }
 
-        return this.messageDAO.updateMessageTextById(messageID, newMessageBody);
+        return null;
     }
 }
