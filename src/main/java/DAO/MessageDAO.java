@@ -102,7 +102,7 @@ public class MessageDAO {
         return null;
     }
 
-    public Message updateMessageTextByMessageId(int messageId, String newText) {
+    public Message updateMessageTextByMessageId(int messageId, String newMessageBody) {
         Message existingMessage = getMessageByMessageId(messageId);
 
         if (existingMessage == null) {
@@ -113,12 +113,12 @@ public class MessageDAO {
         try {
             String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, newText);
+            preparedStatement.setString(1, newMessageBody);
             preparedStatement.setInt(2, messageId);
             int rowsUpdated = preparedStatement.executeUpdate();
 
             if (rowsUpdated == 1) {
-                existingMessage.setMessage_text(newText); // Update local object
+                existingMessage.setMessage_text(newMessageBody); // Update local object
                 return existingMessage;
             }
         } catch (SQLException e) {
