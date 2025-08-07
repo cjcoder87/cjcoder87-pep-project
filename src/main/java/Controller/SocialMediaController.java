@@ -135,7 +135,7 @@ public class SocialMediaController {
 
     private void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
-        Message deletedMessage = messageService.deleteMessageById(messageId);
+        Message deletedMessage = this.messageService.deleteMessageById(messageId);
 
         if (deletedMessage != null) {
             ctx.json(deletedMessage);
