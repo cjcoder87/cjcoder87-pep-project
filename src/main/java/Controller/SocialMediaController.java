@@ -75,6 +75,7 @@ public class SocialMediaController {
         app.get("/messages", this::getAllMessagesHandler);
 
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
         // app.put("/flights/{flight_id}", this::updateFlightHandler);
         return app;
     }
@@ -122,15 +123,24 @@ public class SocialMediaController {
 
     private void getMessageByIdHandler(Context ctx) throws JsonProcessingException {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
-        // ObjectMapper mapper = new ObjectMapper();
         Message message = this.messageService.getMessageById(messageId);
-
-        // Message message = mapper.readValue(ctx.body(), Message.class);
         System.out.println(message);
+
         if (message != null) {
-            ctx.json(message); // default 200 OK
+            ctx.json(message);
         } else {
-            ctx.result(""); // empty body
+            ctx.result("");
+        }
+    }
+
+    private void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+        Message deletedMessage = messageService.deleteMessageById(messageId);
+
+        if (deletedMessage != null) {
+            ctx.json(deletedMessage);
+        } else {
+            ctx.result("");
         }
     }
 
