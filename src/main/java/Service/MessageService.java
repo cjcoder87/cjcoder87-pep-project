@@ -4,6 +4,7 @@ import DAO.AccountDAO;
 import DAO.MessageDAO;
 import Model.Message;
 import Util.MessageValidator;
+import java.util.List;
 
 public class MessageService {
     MessageDAO messageDAO;
@@ -27,5 +28,9 @@ public class MessageService {
         if (this.messageValidator.isValidMessage(message) && !this.accountDAO.accountExists(message.getPosted_by()))
             return messageDAO.insertMessage(message);
         return null;
+    }
+
+   public List<Message> getAllMessages() {
+        return this.messageDAO.getAllMessages();
     }
 }
