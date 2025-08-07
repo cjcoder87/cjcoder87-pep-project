@@ -78,9 +78,9 @@ public class SocialMediaController {
         app.post("/messages", this::addMessageHandler);
         app.get("/messages", this::getAllMessagesHandler);
 
-        app.get("/messages/{message_id}", this::getMessageByIdHandler);
-        app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
-        app.patch("/messages/{message_id}", ctx -> this.updateMessageTextByIdHandler(ctx));
+        app.get("/messages/{message_id}", this::getMessageByMessageIdHandler);
+        app.delete("/messages/{message_id}", this::deleteMessageByMessageIdHandler);
+        app.patch("/messages/{message_id}", ctx -> this.updateMessageTextByMessageIdHandler(ctx));
         app.get("/accounts/{account_id}/messages", this::getMessagesByAccountIdHandler);
         return app;
     }
@@ -126,9 +126,9 @@ public class SocialMediaController {
         ctx.json(messageService.getAllMessages());
     }
 
-    private void getMessageByIdHandler(Context ctx) throws JsonProcessingException {
+    private void getMessageByMessageIdHandler(Context ctx) throws JsonProcessingException {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
-        Message message = this.messageService.getMessageById(messageId);
+        Message message = this.messageService.getMessageByMessageId(messageId);
         System.out.println(message);
 
         if (message != null) {
@@ -138,9 +138,9 @@ public class SocialMediaController {
         }
     }
 
-    private void deleteMessageByIdHandler(Context ctx) throws JsonProcessingException {
+    private void deleteMessageByMessageIdHandler(Context ctx) throws JsonProcessingException {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
-        Message deletedMessage = this.messageService.deleteMessageById(messageId);
+        Message deletedMessage = this.messageService.deleteMessageByMessageId(messageId);
 
         if (deletedMessage != null) {
             ctx.json(deletedMessage);
@@ -149,7 +149,7 @@ public class SocialMediaController {
         }
     }
 
-    private void updateMessageTextByIdHandler(Context ctx) {
+    private void updateMessageTextByMessageIdHandler(Context ctx) {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
 
         try {
@@ -159,7 +159,7 @@ public class SocialMediaController {
                     });
             String newMessageBody = body.get("message_text");
 
-            Message updatedMessage = this.messageService.updateMessageTextById(messageId, newMessageBody);
+            Message updatedMessage = this.messageService.updateMessageTextByMessageId(messageId, newMessageBody);
 
             if (updatedMessage != null) {
                 ctx.json(updatedMessage);

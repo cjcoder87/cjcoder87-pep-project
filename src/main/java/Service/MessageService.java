@@ -28,17 +28,17 @@ public class MessageService {
         return this.messageDAO.getAllMessages();
     }
 
-    public Message getMessageById(int messageId) {
-        return this.messageDAO.getMessageById(messageId);
+    public Message getMessageByMessageId(int messageId) {
+        return this.messageDAO.getMessageByMessageId(messageId);
     }
 
-    public Message deleteMessageById(int messageId) {
-        return this.messageDAO.deleteMessageById(messageId);
+    public Message deleteMessageByMessageId(int messageId) {
+        return this.messageDAO.deleteMessageByMessageId(messageId);
     }
 
-    public Message updateMessageTextById(int messageID, String newMessageBody) {
+    public Message updateMessageTextByMessageId(int messageID, String newMessageBody) {
         if (this.messageValidator.isValidMessage(newMessageBody)) {
-            return this.messageDAO.updateMessageTextById(messageID, newMessageBody);
+            return this.messageDAO.updateMessageTextByMessageId(messageID, newMessageBody);
         }
 
         return null;

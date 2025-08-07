@@ -57,7 +57,7 @@ public class MessageDAO {
         return messages;
     }
 
-    public Message getMessageById(int messageId) {
+    public Message getMessageByMessageId(int messageId) {
         Connection connection = ConnectionUtil.getConnection();
         try {
             // Write SQL logic here
@@ -81,8 +81,8 @@ public class MessageDAO {
         return null;
     }
 
-    public Message deleteMessageById(int messageId) {
-        Message message = getMessageById(messageId);
+    public Message deleteMessageByMessageId(int messageId) {
+        Message message = getMessageByMessageId(messageId);
 
         Connection connection = ConnectionUtil.getConnection();
 
@@ -102,8 +102,8 @@ public class MessageDAO {
         return null;
     }
 
-    public Message updateMessageTextById(int messageId, String newText) {
-        Message existingMessage = getMessageById(messageId);
+    public Message updateMessageTextByMessageId(int messageId, String newText) {
+        Message existingMessage = getMessageByMessageId(messageId);
 
         if (existingMessage == null) {
             return null;
