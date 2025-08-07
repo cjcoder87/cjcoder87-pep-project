@@ -82,7 +82,7 @@ public class MessageDAO {
     }
 
     public Message deleteMessageById(int messageId) {
-        Message message = getMessageById(messageId); // reuse existing method
+        Message message = getMessageById(messageId);
 
         Connection connection = ConnectionUtil.getConnection();
 
@@ -94,7 +94,7 @@ public class MessageDAO {
 
             // write preparedStatement's setString and setInt methods here.
             preparedStatement.setInt(1, messageId);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
             return message;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
