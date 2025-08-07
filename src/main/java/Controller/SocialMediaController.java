@@ -1,7 +1,10 @@
 package Controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Map;
 
 import Model.Account;
 import Model.Message;
@@ -76,7 +79,7 @@ public class SocialMediaController {
 
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
-        // app.put("/flights/{flight_id}", this::updateFlightHandler);
+        app.patch("/messages/{message_id}", ctx -> this.updateMessageTextByIdHandler(ctx));
         return app;
     }
 
@@ -141,6 +144,26 @@ public class SocialMediaController {
             ctx.json(deletedMessage);
         } else {
             ctx.result("");
+        }
+    }
+
+    private void updateMessageTextByIdHandler(Context ctx) {
+        int messageId = Integer.parseInt(ctx.pathParam("message_id"));
+
+        try {
+            // Expecting: { "message_text": "new text here" }
+            Map<String, String> body = new ObjectMapper().readValue(ctx.body(),  new TypeReference<Map<String, String>>() {});
+            String new_message_body = body.get("message_text");
+
+            Message updatedMessage = this.messageService.updateMessageTextById(messageId, new_message_body);
+
+            if (updatedMessage != null) {
+                ctx.json(updatedMessage);
+            } else {
+                ctx.status(400); // Invalid input or message not found
+            }
+        } catch (Exception e) {
+            ctx.status(400);
         }
     }
 
