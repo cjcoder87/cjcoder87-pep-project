@@ -26,7 +26,7 @@ public class AccountService {
     }
 
     public Account loginAccount(Account account) {
-        if (this.accountValidator.isValidLogin(account))
+        if (!this.accountValidator.isValidLogin(account))
             return null;
 
         return this.accountDAO.loginAccount(account);
