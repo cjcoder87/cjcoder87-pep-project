@@ -72,7 +72,7 @@ public class SocialMediaController {
         app.post("/register", this::registerAccountHandler);
         app.post("/login", this::loginAccountHandler);
         app.post("/messages", this::addMessageHandler);
-        app.get("/flights", this::getAllFlightsHandler);
+        app.get("/messages", this::getAllFlightsHandler);
         // app.put("/flights/{flight_id}", this::updateFlightHandler);
         // app.get("/flights/departing/{departure_city}/arriving/{arrival_city}",
         // this::getAllFlightsDepartingFromCityArrivingToCityHandler);
