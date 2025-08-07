@@ -13,10 +13,10 @@ public class AccountService {
         this.accountValidator = new AccountValidator();
     }
 
-    public AccountService(AccountDAO accountDAO) {
-        this.accountDAO = accountDAO;
-        this.accountValidator = new AccountValidator();
-    }
+    // public AccountService(AccountDAO accountDAO) {
+    //     this.accountDAO = accountDAO;
+    //     this.accountValidator = new AccountValidator();
+    // }
 
     // add account checks for reuirements of username before calling DAO to add
     // account
