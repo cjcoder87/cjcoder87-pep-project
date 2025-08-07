@@ -20,7 +20,7 @@ public class AccountService {
     // add account checks for reuirements of username before calling DAO to add
     // account
     public Account addAccount(Account account) {
-        if (this.accountValidator.isValidRegistration(account) || !accountDAO.usernameExists(account.getUsername()))
+        if (this.accountValidator.isValidRegistration(account) && !accountDAO.usernameExists(account.getUsername()))
             return null;
         return this.accountDAO.insertAccount(account);
     }
