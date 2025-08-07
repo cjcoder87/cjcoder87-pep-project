@@ -153,7 +153,7 @@ public class SocialMediaController {
         int messageId = Integer.parseInt(ctx.pathParam("message_id"));
 
         try {
-            // Expecting: { "message_text": "new text here" }
+            // use Map to easily find one property to update
             Map<String, String> body = new ObjectMapper().readValue(ctx.body(),
                     new TypeReference<Map<String, String>>() {
                     });
@@ -174,7 +174,7 @@ public class SocialMediaController {
     private void getMessagesByAccountIdHandler(Context ctx) {
         int accountId = Integer.parseInt(ctx.pathParam("account_id"));
         List<Message> messages = messageService.getMessagesByAccountId(accountId);
-        ctx.json(messages); // Will be empty list [] if no messages
+        ctx.json(messages);
     }
 
 }
