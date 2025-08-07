@@ -2,27 +2,38 @@ package Service;
 
 import DAO.AccountDAO;
 import Model.Account;
+import Util.AccountValidator;
 
 public class AccountService {
     AccountDAO accountDAO;
-    
+    AccountValidator accountValidator;
+
     public AccountService() {
         accountDAO = new AccountDAO();
+        accountValidator = new AccountValidator();
     }
 
     public AccountService(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
 
-// add account checks for reuirements of username before calling DAO to add account
+    // add account checks for reuirements of username before calling DAO to add
+    // account
     public Account addAccount(Account account) {
-        if (account.getUsername() == null || account.getUsername().isBlank())
+        if (this.accountValidator.isValidRegistration(account) || !accountDAO.usernameExists(account.getUsername()))
             return null;
-        if (account.getPassword() == null || account.getPassword().length() < 4)
-            return null;
-        if (accountDAO.usernameExists(account.getUsername()))
-            return null;
-
         return this.accountDAO.insertAccount(account);
     }
+
+    public Account loginAccount(Account account) {
+        if (this.accountValidator.isValidLogin(account))
+            return null;
+
+        return this.accountDAO.loginAccount(account);
+    }
+
+
+
+
+
 }

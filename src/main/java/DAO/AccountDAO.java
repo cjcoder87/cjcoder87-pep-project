@@ -35,7 +35,36 @@ public class AccountDAO {
         return null;
     }
 
-    // logic to check if username exists
+    // ---------------------------------------------------------------------------------
+    // login func
+
+    public Account loginAccount(Account account) {
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+
+            String sql = "SELECT * FROM accounts WHERE username = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, account.getUsername());
+            preparedStatement.setString(2, account.getPassword());
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()) {
+                return new Account(
+                        rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // ---------------------------------------------------------------------------------
+
+    // logic to check if username exists, leave method here because involves data
+    // references
 
     public boolean usernameExists(String username) {
         Connection connection = ConnectionUtil.getConnection();
