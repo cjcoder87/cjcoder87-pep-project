@@ -153,9 +153,9 @@ public class SocialMediaController {
         try {
             // Expecting: { "message_text": "new text here" }
             Map<String, String> body = new ObjectMapper().readValue(ctx.body(),  new TypeReference<Map<String, String>>() {});
-            String new_message_body = body.get("message_text");
+            String newMessageBody = body.get("message_text");
 
-            Message updatedMessage = this.messageService.updateMessageTextById(messageId, new_message_body);
+            Message updatedMessage = this.messageService.updateMessageTextById(messageId, newMessageBody);
 
             if (updatedMessage != null) {
                 ctx.json(updatedMessage);
