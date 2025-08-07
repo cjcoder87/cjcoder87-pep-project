@@ -9,19 +9,20 @@ public class AccountService {
     AccountValidator accountValidator;
 
     public AccountService() {
-        accountDAO = new AccountDAO();
-        accountValidator = new AccountValidator();
+        this.accountDAO = new AccountDAO();
+        this.accountValidator = new AccountValidator();
     }
 
     public AccountService(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
+        this.accountValidator = new AccountValidator();
     }
 
     // add account checks for reuirements of username before calling DAO to add
     // account
     public Account addAccount(Account account) {
         if (this.accountValidator.isValidRegistration(account) && !accountDAO.usernameExists(account.getUsername()))
-            return this.accountDAO.insertAccount(account);;
+            return accountDAO.insertAccount(account);
         return null;
     }
 
@@ -29,11 +30,7 @@ public class AccountService {
         if (!this.accountValidator.isValidLogin(account))
             return null;
 
-        return this.accountDAO.loginAccount(account);
+        return accountDAO.loginAccount(account);
     }
-
-
-
-
 
 }

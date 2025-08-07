@@ -80,4 +80,18 @@ public class AccountDAO {
         }
         return false;
     }
+
+    public boolean accountExists(int accountId) {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+             String sql = "SELECT 1 FROM accounts WHERE account_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, accountId);
+            ResultSet rs = preparedStatement.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
