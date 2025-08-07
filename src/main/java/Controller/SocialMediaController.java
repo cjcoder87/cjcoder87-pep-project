@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
 import java.util.Map;
 
 import Model.Account;
@@ -80,6 +81,7 @@ public class SocialMediaController {
         app.get("/messages/{message_id}", this::getMessageByIdHandler);
         app.delete("/messages/{message_id}", this::deleteMessageByIdHandler);
         app.patch("/messages/{message_id}", ctx -> this.updateMessageTextByIdHandler(ctx));
+        app.get("/accounts/{account_id}/messages", this::getMessagesByAccountIdHandler);
         return app;
     }
 
@@ -152,7 +154,9 @@ public class SocialMediaController {
 
         try {
             // Expecting: { "message_text": "new text here" }
-            Map<String, String> body = new ObjectMapper().readValue(ctx.body(),  new TypeReference<Map<String, String>>() {});
+            Map<String, String> body = new ObjectMapper().readValue(ctx.body(),
+                    new TypeReference<Map<String, String>>() {
+                    });
             String newMessageBody = body.get("message_text");
 
             Message updatedMessage = this.messageService.updateMessageTextById(messageId, newMessageBody);
@@ -165,6 +169,12 @@ public class SocialMediaController {
         } catch (Exception e) {
             ctx.status(400);
         }
+    }
+
+    private void getMessagesByAccountIdHandler(Context ctx) {
+        int accountId = Integer.parseInt(ctx.pathParam("account_id"));
+        List<Message> messages = messageService.getMessagesByAccountId(accountId);
+        ctx.json(messages); // Will be empty list [] if no messages
     }
 
 }

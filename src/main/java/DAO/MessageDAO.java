@@ -103,29 +103,54 @@ public class MessageDAO {
     }
 
     public Message updateMessageTextById(int messageId, String newText) {
-    Message existingMessage = getMessageById(messageId);
+        Message existingMessage = getMessageById(messageId);
 
-    if (existingMessage == null) {
+        if (existingMessage == null) {
+            return null;
+        }
+
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, newText);
+            preparedStatement.setInt(2, messageId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated == 1) {
+                existingMessage.setMessage_text(newText); // Update local object
+                return existingMessage;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
         return null;
     }
 
-    Connection connection = ConnectionUtil.getConnection();
-    try {
-        String sql = "UPDATE message SET message_text = ? WHERE message_id = ?";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, newText);
-        preparedStatement.setInt(2, messageId);
-        int rowsUpdated = preparedStatement.executeUpdate();
+    public List<Message> getMessagesByAccountId(int accountId) {
+        List<Message> messages = new ArrayList<>();
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "SELECT * FROM message WHERE posted_by = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, accountId);
+            ResultSet rs = ps.executeQuery();
 
-        if (rowsUpdated == 1) {
-            existingMessage.setMessage_text(newText); // Update local object
-            return existingMessage;
+            while (rs.next()) {
+                Message message = new Message(
+                        rs.getInt("message_id"),
+                        rs.getInt("posted_by"),
+                        rs.getString("message_text"),
+                        rs.getLong("time_posted_epoch"));
+                messages.add(message);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
-    }
 
-    return null;
-}
+        return messages;
+    }
 
 }
