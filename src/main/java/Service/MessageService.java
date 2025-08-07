@@ -18,10 +18,10 @@ public class MessageService {
     }
 
     // public MessageService(MessageDAO messageDAO,
-    //         AccountDAO accountDAO) {
-    //     this.messageDAO = messageDAO;
-    //     this.accountDAO = accountDAO;
-    //     this.messageValidator = new MessageValidator();
+    // AccountDAO accountDAO) {
+    // this.messageDAO = messageDAO;
+    // this.accountDAO = accountDAO;
+    // this.messageValidator = new MessageValidator();
     // }
 
     public Message addMessage(Message message) {
@@ -30,11 +30,11 @@ public class MessageService {
         return null;
     }
 
-   public List<Message> getAllMessages() {
+    public List<Message> getAllMessages() {
         return this.messageDAO.getAllMessages();
     }
 
-       public Message getMessageById(Message message) {
-        return this.messageDAO.getMessageById(message.getMessage_id());
+    public Message getMessageById(int messageId) {
+        return this.messageDAO.getMessageById(messageId);
     }
 }
